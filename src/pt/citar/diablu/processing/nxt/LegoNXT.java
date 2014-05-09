@@ -208,6 +208,19 @@ public class LegoNXT {
     public boolean sendMsg(int mailbox, String message) {
         return msgbox.sendMsg(mailbox, message);
     }
+
+    /**
+     * Reads a BT message to the NXT.
+     * 
+     * @param mailbox Int mailbox number
+     * @param remove Boolean; true clears message from remote inbox
+     * 
+     * @return String message
+     */
+    public String receiveMsg(int mailbox, boolean remove) {
+        return msgbox.receiveMsg(mailbox, remove);
+    }
+
     
     /**
      * Sets the power to the specified motor.

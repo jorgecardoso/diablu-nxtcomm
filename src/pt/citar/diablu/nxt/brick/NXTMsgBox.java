@@ -34,12 +34,14 @@ import java.io.IOException;
 /**
  *
  * @author Anton Vanhoucke
+ * @author Dave Musicant
  */
 public class NXTMsgBox {
     
     private NXTBrick brick;
     
     private NXTCommandSendMsg sendMsg;
+    private NXTCommandReceiveMsg receiveMsg;
     
     /**
      * Creates a new instance of NXTMsgBox associated with a NXTBrick
@@ -49,6 +51,7 @@ public class NXTMsgBox {
     public NXTMsgBox(NXTBrick brick) {
         this.brick = brick;
         sendMsg = new NXTCommandSendMsg();
+        receiveMsg = new NXTCommandReceiveMsg();
     }
     
     /**
@@ -72,5 +75,25 @@ public class NXTMsgBox {
         return true;
     }
     
+    /**
+     * Receives a message from the brick.
+     * 
+     * @param mailbox Int mailbox number
+     * @param remove Boolean; true clears message from remote inbox
+     * 
+     * @return String message
+     */
+    public String receiveMsg(int mailbox, boolean remove) {
+        receiveMsg.setMailbox(mailbox);
+        receiveMsg.setRemoveFlag(remove);
+        try {
+            brick.getChannel().sendCommand(receiveMsg);
+        } catch (IOException ioe) {
+            System.err.println("IOException: " + ioe.getMessage());
+            return "";
+        }
+        return receiveMsg.getMessageString();
+        
+    }
     
 }
