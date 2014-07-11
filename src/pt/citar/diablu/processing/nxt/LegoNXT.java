@@ -87,6 +87,31 @@ public class LegoNXT {
     public static final int INACTIVE = NXTLightSensor.INACTIVE;
     
     /**
+     * The full color sensor type.
+     */
+    public static final int FULL = NXTColorSensor.FULL;
+    
+    /**
+     * The red color sensor type.
+     */
+    public static final int RED = NXTColorSensor.RED;
+    
+    /**
+     * The green color sensor type.
+     */
+    public static final int GREEN = NXTColorSensor.GREEN;
+    
+    /**
+     * The blue color sensor type.
+     */
+    public static final int BLUE = NXTColorSensor.BLUE;
+    
+    /**
+     * The none color sensor type.
+     */
+    public static final int NONE = NXTColorSensor.NONE;
+    
+    /**
      * The parent PApplet.
      */
     private PApplet parent;
@@ -453,7 +478,48 @@ public class LegoNXT {
         
         ((NXTLightSensor)sensorPorts[portNumber]).setType(type);
     }
+
+    /**
+     * Returns the color level from the color sensor attached to the specified port.
+     *
+     * @param portNumber The port number on which the pressure sensor is
+     * connected (the constants PORT_1, PORT_2, PORT_3 or PORT_4 should be used).
+     * @return The color level (0..100). -1 on error
+     */
+    public int getColor(int portNumber) {
+        if (portNumber > sensorPorts.length-1) {
+            System.err.println("Port number too large: " + portNumber + "!");
+            return -1;
+        }
+        if(sensorPorts[portNumber] == null || !(sensorPorts[portNumber] instanceof NXTColorSensor)) {
+            sensorPorts[portNumber] = new NXTColorSensor(brick, (byte)portNumber);
+        }
+        return ((NXTColorSensor)sensorPorts[portNumber]).getValue();
+    }
     
+    /**
+     * Sets the type of color sensor to be used on the specifiec port.
+     *
+     * @param type The type of color sensor (FULL or RED or GREEN or BLUE or NONE or RGB).
+     * @param portNumber The port number on which the pressure sensor is
+     * connected (the constants PORT_1, PORT_2, PORT_3 or PORT_4 should be used).
+     */
+    public void setColorSensorType(int type, int portNumber) {
+        if (portNumber > sensorPorts.length-1) {
+            System.err.println("Port number too large: " + portNumber + "!");
+            return;
+        }
+        if (type != FULL && type != RED && type != GREEN && type != BLUE && type != NONE) {
+            System.err.println("Wrong sensor type. Must be FULL or RED or GREEN or BLUE or NONE or RGB");
+            return;
+        }
+        if(sensorPorts[portNumber] == null || !(sensorPorts[portNumber] instanceof NXTColorSensor)) {
+            sensorPorts[portNumber] = new NXTColorSensor(brick, (byte)portNumber);
+        }
+        
+        ((NXTColorSensor)sensorPorts[portNumber]).setType(type);
+    }
+
     /**
      * Returns the proximity to an obstacle, measured by the ultrasonic sensor.
      *

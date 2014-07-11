@@ -73,6 +73,16 @@ public class NXTResponseInputValues extends NXTResponse {
     public static final byte LOWSPEED_9V_TYPE = 0x0B;
     /**  */
     public static final byte NO_OF_SENSOR_TYPES_TYPE = 0x0C;
+    /**  */
+    public static final byte COLOR_FULL = 0x0D;
+    /**  */
+    public static final byte COLOR_RED = 0x0E;
+    /**  */
+    public static final byte COLOR_GREEN = 0x0F;
+    /**  */
+    public static final byte COLOR_BLUE = 0x10;
+    /**  */
+    public static final byte COLOR_NONE = 0x11;
 
 
 
