@@ -29,7 +29,6 @@
  */
 package pt.citar.diablu.nxt.protocol;
 
-import java.io.InputStream;
 import java.io.IOException;
 import java.util.Formatter;
 
@@ -92,23 +91,23 @@ public abstract class NXTResponse {
      *
      * Subclasses should verify the packet.
      */
-    public void receiveResponse(InputStream is) throws IOException {
-        readLength(is);
+    public void receiveResponse(NXTCommChannel channel) throws IOException {
+        readLength(channel);
         buffer  = new byte[packetLength];
-        is.read(buffer);
+        channel.read(buffer);
     }
 
 
-    private void readLength(InputStream is) throws IOException {
+    private void readLength(NXTCommChannel channel) throws IOException {
         /* wait for output from NXTBrick */
         packetLength = 0;
         do {
-            packetLength  = is.read();
+            packetLength  = channel.read();
         } while (packetLength < 0);
-        int lengthMSB = is.read();
+        int lengthMSB = channel.read();
         packetLength = (0xff & packetLength) | ((0xff & lengthMSB) << 8);
 
-       // System.out.println(packetLength);
+        //System.out.println(packetLength);
     }
 
     /**
@@ -156,12 +155,17 @@ public abstract class NXTResponse {
      * @return The command packet in hex form.
      */
     public String toString() {
+    	if ( null != this.buffer ) {
         Formatter f = new Formatter();
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < buffer.length; i++) {
-            //f.format("%x ", buffer[i]);
+            f.format("%x ", buffer[i]);
         }
+        
         return f.toString();
+        } else {
+        	return "Response";
+        }
 
     }
 }

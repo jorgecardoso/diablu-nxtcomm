@@ -29,8 +29,7 @@
 
 package pt.citar.diablu.nxt.protocol;
 
-import java.io.InputStream;
-import java.io.IOException;
+
 
 /**
  * The <code>NXTResponseStatus</code> only allows  you to read the status code from

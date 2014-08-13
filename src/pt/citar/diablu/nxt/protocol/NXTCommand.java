@@ -28,8 +28,6 @@
  */
 package pt.citar.diablu.nxt.protocol;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.IOException;
 import java.util.Formatter;
 
@@ -102,29 +100,30 @@ public abstract class NXTCommand {
      *
      * @return The <code>NXTResponse</code> response. This should be cast to the apropriate subclass.
      */
-    public NXTResponse sendCommand(InputStream is, OutputStream os) throws IOException {
+    public NXTResponse sendCommand(NXTCommChannel channel) throws IOException {
         if (isResponseRequired()) {
             buffer[COMMAND_TYPE_INDEX] = DIRECT_COMMAND_RESPONSE_REQUIRED;
 
             /* send command */
-            os.write(buffer);
+            channel.write(buffer);
 
-            os.flush();
+            channel.flush();
 
             /* debug code */
-            //System.out.println("*** Sent packet: " . toString());
+            //System.out.println("*** Sent packet: " + this.toString());
 
             /* Ask the subclass for the apropriate response */
-            NXTResponse response = getResponse();
-            response.receiveResponse(is);
+            NXTResponse response = this.getResponse();
+            //System.out.println("Response: " + response);
+            response.receiveResponse(channel);
             return response;
 
         } else {
             buffer[COMMAND_TYPE_INDEX] = DIRECT_COMMAND_NO_RESPONSE;
 
             /* send command */
-            os.write(buffer);
-            os.flush();
+            channel.write(buffer);
+            channel.flush();
 
             /* don't need to wait for a response*/
             return null;
@@ -169,8 +168,9 @@ public abstract class NXTCommand {
         Formatter f = new Formatter();
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < buffer.length; i++) {
-          //  f.format("%x ", buffer[i]);
+            f.format("%x ", buffer[i]);
         }
+        
         return f.toString();
     }
 }

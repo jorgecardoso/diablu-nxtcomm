@@ -1,3 +1,5 @@
+import processing.serial.*;
+
 /*
  * NXTCommTest.pde
  *
@@ -41,7 +43,7 @@ void setup() {
   font = loadFont("ArialNarrow-24.vlw");
   textFont(font);
 
-  lego = new LegoNXT(this, "COM18");
+  lego = new LegoNXT(this, "/dev/tty.NXT-DevB");
   frameRate(20);
 }
 

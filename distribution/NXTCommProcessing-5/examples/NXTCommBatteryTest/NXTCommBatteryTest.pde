@@ -1,3 +1,5 @@
+import processing.serial.*;
+
 /*
  * NXTCommBatteruTest.pde
  *
@@ -39,27 +41,26 @@ void setup() {
   size(400, 400);
 
 
-  font = loadFont("ArialNarrow-24.vlw");
-  textFont(font);
-
-  lego = new LegoNXT(this, "COM18");
+  lego = new LegoNXT(this, "/dev/tty.NXT-DevB");
+  println(lego);
   frameRate(10);
 }
 
 
 void draw() {
   background(0);  
-  
-  textAlign(CENTER);
-  textMode(SCREEN);
-  
-  
-  int batteryLevel = lego.getBatteryLevel();
-  
-  // draw battery level;
-  fill(255);
-  rect(170, height, 60, -batteryLevel/90);
-  text("Battery: " + batteryLevel + " mv", 140, height-batteryLevel/90);
 
+  textAlign(CENTER);
+
+
+  if ( lego != null ) {
+    int batteryLevel = lego.getBatteryLevel();
+
+  //println(batteryLevel);
+    // draw battery level;
+    fill(255);
+    rect(170, height, 60, -batteryLevel/90);
+    text("Battery: " + batteryLevel + " mv", 140, height-batteryLevel/90);
+  }
 }
 

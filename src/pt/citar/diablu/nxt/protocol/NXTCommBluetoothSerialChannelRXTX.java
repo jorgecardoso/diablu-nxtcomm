@@ -39,7 +39,7 @@ import gnu.io.*;
  *
  * @author Jorge Cardoso
  */
-public class NXTCommBluetoothSerialChannel implements NXTCommChannel {
+public class NXTCommBluetoothSerialChannelRXTX implements NXTCommChannel {
     private static final int BAUD = 9600;
     private InputStream is;
     private OutputStream os;
@@ -47,10 +47,10 @@ public class NXTCommBluetoothSerialChannel implements NXTCommChannel {
     private SerialPort port;
 
     /** Creates a new instance of NXTCommBluetoothChannel */
-    public NXTCommBluetoothSerialChannel() {
+    public NXTCommBluetoothSerialChannelRXTX() {
     }
 
-    public NXTCommBluetoothSerialChannel(String commPort) throws IOException, NoSuchPortException, PortInUseException, UnsupportedCommOperationException{
+    public NXTCommBluetoothSerialChannelRXTX(String commPort) throws IOException, NoSuchPortException, PortInUseException, UnsupportedCommOperationException{
         openPort(commPort);
     }
 
@@ -61,7 +61,7 @@ public class NXTCommBluetoothSerialChannel implements NXTCommChannel {
         os.write((byte) length); // LSB
         os.write((byte) (0xff & (length >> 8)));   // MSB
 
-        return command.sendCommand(is, os);
+        return command.sendCommand(this);
     }
     
     public void openChannel(Object channel) throws UnsupportedCommOperationException, 
@@ -103,4 +103,63 @@ public class NXTCommBluetoothSerialChannel implements NXTCommChannel {
             port.close();
         }
     }
+
+	@Override
+	public int read() throws RuntimeException {
+		try {
+			return is.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public int read(byte[] buffer) throws RuntimeException {
+		try {
+			return is.read(buffer);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+	
+	@Override
+	public void write(byte b) throws RuntimeException {
+		try {
+			os.write(b);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		
+	}
+	@Override
+	public void write(byte[] buffer) throws RuntimeException {
+		try {
+			os.write(buffer);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		
+	}
+
+	@Override
+	public void flush() throws RuntimeException {
+		try {
+			os.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		
+	}
+
+
 }

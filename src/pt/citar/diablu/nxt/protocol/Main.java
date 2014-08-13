@@ -31,7 +31,7 @@ package pt.citar.diablu.nxt.protocol;
 
 
 
-import java.util.Enumeration;
+
 import java.io.*;
 
 /**
@@ -49,7 +49,7 @@ public class Main {
     /** Creates a new instance of Main */
     public Main() {
 
-        NXTCommBluetoothSerialChannel channel = new NXTCommBluetoothSerialChannel();
+        NXTCommBluetoothSerialChannelJSSC channel = new NXTCommBluetoothSerialChannelJSSC();
 
         try {
 
@@ -101,12 +101,9 @@ public class Main {
             channel.closeChannel();
         } catch (IOException ioe) {
             System.err.println("IOException: " + ioe.getMessage());
-        } catch (gnu.io.PortInUseException piue) {
-             System.err.println("PortInUseException: " + piue.getMessage());
-        } catch (gnu.io.UnsupportedCommOperationException ucoe) {
-             System.err.println("UnsupportedCommOperationException: " + ucoe.getMessage());
-        } catch (gnu.io.NoSuchPortException nspe) {
-             System.err.println("NoSuchPortException: " + nspe.getMessage());
+        } catch (RuntimeException re) {
+            
+             System.err.println(re.getMessage());
         }
 
 

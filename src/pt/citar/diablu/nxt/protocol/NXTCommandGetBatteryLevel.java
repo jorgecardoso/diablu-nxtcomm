@@ -33,6 +33,7 @@ public class NXTCommandGetBatteryLevel extends NXTCommand {
         buffer = new byte[] {DIRECT_COMMAND_RESPONSE_REQUIRED, 0x0B};
         //this.setInputPort(inputPort);
         response = new NXTResponseGetBatteryLevel();
+        //System.out.println("Response: " + response);
     }
     
     protected NXTResponse getResponse() {

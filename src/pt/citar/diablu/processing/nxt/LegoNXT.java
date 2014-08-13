@@ -1,5 +1,5 @@
 /*
- * LegoNXT.java version 0.91
+ * LegoNXT.java version 0.99
  *
  * Created on 22 de Janeiro de 2007, 0:21
  *
@@ -31,10 +31,11 @@ package pt.citar.diablu.processing.nxt;
 
 import processing.core.*;
 import pt.citar.diablu.nxt.brick.*;
-import pt.citar.diablu.nxt.protocol.NXTCommBluetoothSerialChannel;
-import gnu.io.NoSuchPortException;
-import gnu.io.PortInUseException;
-import gnu.io.UnsupportedCommOperationException;
+import pt.citar.diablu.nxt.protocol.NXTCommBluetoothSerialChannelJSSC;
+//import pt.citar.diablu.nxt.protocol.NXTCommBluetoothSerialChannelRXTX;
+//import gnu.io.NoSuchPortException;
+//import gnu.io.PortInUseException;
+//import gnu.io.UnsupportedCommOperationException;
 
 import java.io.IOException;
 
@@ -119,7 +120,8 @@ public class LegoNXT {
     /**
      * The bluetooth nxt channel.
      */
-    private NXTCommBluetoothSerialChannel btChannel;
+    //private NXTCommBluetoothSerialChannelRXTX btChannel;
+    private NXTCommBluetoothSerialChannelJSSC btChannel;
     
     /**
      * The NXTBrick object.
@@ -172,22 +174,14 @@ public class LegoNXT {
         this.parent = parent;
         
         /* register calls */
-        parent.registerDispose(this);
+        parent.registerMethod("dispose", this);
         /* open bt channel */
-        try {
-            btChannel = new NXTCommBluetoothSerialChannel(commPort);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            
-        } catch (PortInUseException ex) {
-            ex.printStackTrace();
-            
-        } catch (NoSuchPortException ex) {
-            ex.printStackTrace();
-            
-        } catch (UnsupportedCommOperationException ex) {
-            ex.printStackTrace();
-        }
+        //try {
+            //btChannel = new NXTCommBluetoothSerialChannelRXTX(commPort);
+            btChannel = new NXTCommBluetoothSerialChannelJSSC(commPort);
+        //}  catch (RuntimeException ex) {
+        //    ex.printStackTrace();
+        //}
         
         // make the brick
         brick = new NXTBrick(btChannel);
@@ -208,7 +202,7 @@ public class LegoNXT {
         msgbox = new NXTMsgBox(brick);
         
         // nxtcomm version info
-        System.out.println("NXTComm for Processing, beta version 0.91 by Jorge Cardoso");
+        System.out.println("NXTComm for Processing, beta version 0.99 by Jorge Cardoso");
     }
     
     
@@ -544,6 +538,7 @@ public class LegoNXT {
      * @return The battery level in millivolts.
      */
     public int getBatteryLevel() {
+    	//System.out.println(brick);
         return brick.getBatteryLevel();
     }
     

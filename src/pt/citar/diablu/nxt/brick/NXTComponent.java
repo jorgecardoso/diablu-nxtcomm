@@ -29,7 +29,6 @@
 
 package pt.citar.diablu.nxt.brick;
 
-import pt.citar.diablu.nxt.protocol.*;
 
 /**
  * This class represents a sensor or a motor of the NXT. This class is an abstract class, meaning that programs never use it directly.

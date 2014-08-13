@@ -29,8 +29,7 @@
 
 package pt.citar.diablu.nxt.protocol;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+
 import java.io.IOException;
 
 /**
@@ -42,4 +41,9 @@ public interface NXTCommChannel {
     public void openChannel(Object channel) throws Exception;
     public void closeChannel() throws Exception;
     public NXTResponse sendCommand(NXTCommand command) throws IOException;
+    public int read() throws RuntimeException;
+    public int read(byte []buffer) throws RuntimeException;
+    public void write(byte []buffer)  throws RuntimeException;
+    public void write(byte b)  throws RuntimeException;
+    public void flush();
 }

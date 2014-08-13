@@ -29,9 +29,7 @@
 
 package pt.citar.diablu.nxt.protocol;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
+
 
 /**
  * The <code>NXTCommandSetInputMode</code> allows you to set the input mode for the sensors.

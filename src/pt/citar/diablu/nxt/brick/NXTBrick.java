@@ -51,6 +51,7 @@ public class NXTBrick {
     public NXTBrick(NXTCommChannel channel) {
         this.channel = channel;
         getBatteryLevel = new NXTCommandGetBatteryLevel();
+        //System.out.println(channel);
     }
     
  
@@ -70,9 +71,10 @@ public class NXTBrick {
      * @return The battery level in millivolts.
      */
     public int getBatteryLevel() {
-        
+        //System.out.println(channel);
         try {
             batteryLevel = (NXTResponseGetBatteryLevel)channel.sendCommand(getBatteryLevel);
+            //System.out.println("Battery evel: " + batteryLevel);
         } catch (IOException ex) {
             ex.printStackTrace();
             return -1;
