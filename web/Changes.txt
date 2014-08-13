@@ -1,0 +1,38 @@
+NXTComm for Processing 
+
+Release 0.99 - 13 August 2014
+
++ Added contributions by Dave Musicant to receive messages from the NXT.
++ Added contributions by Matt Cotter to use the color sensor.
+
+--------------------------------------------------------
+Release 0.91 - 05 December2007
+
++ Removed annoying debug messages when starting motors.
++ Added init version message.
+
+
+
+--------------------------------------------------------
+Release 0.90 - 01 October 2007
+
++ Added getBatteryLevel(), getMotorTachoLimit(), getMotorTachoCount(), getMotorBlockTachoCount(), getMotorRotationCount() and resetMotorPosition().
+
+
+--------------------------------------------------------
+Release 0.81 - 29 August 2007
+
+Bugfixes:
+- Corrected bug in playTone(int, int) which made it throw a NullPointerException. Thanks to Diego Baca! .
+
+
+
+--------------------------------------------------------
+Release 0.8 - 23 July 2007
+
++ First public release.
+
+
+	
+		
+ 		

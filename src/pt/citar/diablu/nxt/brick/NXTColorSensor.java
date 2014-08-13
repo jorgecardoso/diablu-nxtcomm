@@ -35,8 +35,8 @@ import pt.citar.diablu.nxt.protocol.*;
 /**
  * The NXTColorSensor class represents the, hmm, light sensor...
  *
- * @author Jorge Cardoso
- */
+ * @author Matt Cotter
+ **/
 public class NXTColorSensor extends NXTComponent {
     
     public static final byte FULL = NXTResponseInputValues.COLOR_FULL;

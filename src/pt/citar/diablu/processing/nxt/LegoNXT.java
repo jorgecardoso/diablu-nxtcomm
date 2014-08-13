@@ -32,10 +32,10 @@ package pt.citar.diablu.processing.nxt;
 import processing.core.*;
 import pt.citar.diablu.nxt.brick.*;
 import pt.citar.diablu.nxt.protocol.NXTCommBluetoothSerialChannel;
-
 import gnu.io.NoSuchPortException;
 import gnu.io.PortInUseException;
 import gnu.io.UnsupportedCommOperationException;
+
 import java.io.IOException;
 
 /**
