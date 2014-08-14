@@ -2,6 +2,7 @@
  * NXTCommTest.pde
  *
  * Created on 07 de March 2007
+ * Modified on 14 August 2014 
  *
  *  NXTComm: A java library to control the NXT Brick.
  *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
@@ -26,33 +27,29 @@
  *  email: jorgecardoso <> ieee org
  *  web: http://jorgecardoso.org
  */
+import processing.serial.*;
 import pt.citar.diablu.processing.nxt.*;
-
-PFont font;
 
 LegoNXT lego;
 
 void setup() {
   size(400, 400);
 
-  font = loadFont("ArialNarrow-24.vlw");
-  textFont(font);
 
-  lego = new LegoNXT(this, "COM18");
+  lego = new LegoNXT(this, "/dev/tty.NXT-DevB");
   frameRate(20);
 }
 
 
 void draw() {
 
-  /* Light sensor on port 0*/
-  int light = lego.getLight(0);
+  /* Light sensor on port 1 */
+  int light = lego.getLight(lego.PORT_1);
   
   
   background(light*2.5);
   
   textAlign(CENTER);
-  textMode(SCREEN);
   text("Light Level: " + light, width/2, height-light);
 }
 
@@ -63,11 +60,11 @@ void draw() {
 */
 void keyPressed() {
   if (key == 'a') {
-    lego.setLightSensorType(lego.ACTIVE, 0);
+    lego.setLightSensorType(lego.ACTIVE, lego.PORT_1);
     println("Setting type to ACTIVE");
   } 
   else if (key =='i') {
-    lego.setLightSensorType(lego.INACTIVE, 0);
+    lego.setLightSensorType(lego.INACTIVE, lego.PORT_1);
     println("Setting type to INACTIVE");
   }
 
