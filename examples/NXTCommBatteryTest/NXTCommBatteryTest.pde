@@ -1,9 +1,8 @@
-import processing.serial.*;
-
 /*
- * NXTCommBatteruTest.pde
+ * NXTCommBatteryTest.pde
  *
  * Created on 07 de March 2007
+ * Modified on 13 August 2014
  *
  *  NXTComm: A java library to control the NXT Brick.
  *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
@@ -28,21 +27,18 @@ import processing.serial.*;
  *  email: jorgecardoso <> ieee org
  *  web: http://jorgecardoso.org
  */
-
+import processing.serial.*;
 import pt.citar.diablu.processing.nxt.*;
 
-PFont font;
 
-int power = 50;
 LegoNXT lego;
 
 
 void setup() {
   size(400, 400);
 
-
   lego = new LegoNXT(this, "/dev/tty.NXT-DevB");
-  println(lego);
+
   frameRate(10);
 }
 
@@ -52,15 +48,11 @@ void draw() {
 
   textAlign(CENTER);
 
+  int batteryLevel = lego.getBatteryLevel();
 
-  if ( lego != null ) {
-    int batteryLevel = lego.getBatteryLevel();
-
-  //println(batteryLevel);
-    // draw battery level;
-    fill(255);
-    rect(170, height, 60, -batteryLevel/90);
-    text("Battery: " + batteryLevel + " mv", 140, height-batteryLevel/90);
-  }
+  // draw battery level;
+  fill(255);
+  rect(170, height, 60, -batteryLevel/90);
+  text("Battery: " + batteryLevel + " mv", 140, height-batteryLevel/90);
 }
 
