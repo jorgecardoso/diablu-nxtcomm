@@ -1,7 +1,7 @@
 /*
- * NXTCommProximityTest.pde
+ * NXTCommTest.pde
  *
- * Created on 16 July 2007
+ * Created on 07 de March 2007
  * Modified on 14 August 2014
  *
  *  NXTComm: A java library to control the NXT Brick.
@@ -33,25 +33,41 @@ import pt.citar.diablu.processing.nxt.*;
 
 LegoNXT lego;
 
+
 void setup() {
   size(400, 400);
-
-
+  
   lego = new LegoNXT(this, "/dev/tty.NXT-DevB");
-  frameRate(10);
+  frameRate(20);
 }
 
 
 void draw() {
+
   background(0);
-  /* ultrasonic sensor on port 0*/
-  int distance = lego.getDistance(lego.PORT_1);
-
+  
+  /* Sound sensor on port 0*/
+  int db = lego.getDB(lego.PORT_1);
+  println("DB Level: " + db);
+  fill(db/100.0*255, 255-db/100.0*255, 255-db/100.0*255);
+  rect(0, height, width, -db);
+   	
   fill(255);
-  rect(0, height-distance*4-20, width, 20);
   textAlign(CENTER);
-
-  fill(0);
-  text("Distance: ~" + distance + " cm", width/2, height-distance*4);
+  text("Sound Level", width/2, height-db);
+   
+   
+  if (lego.getButtonState(lego.PORT_2)) {
+    fill(0, 0, 255);
+    rect(0, 50, 100, 50);  
+  }
+  
+  if (lego.getButtonState(lego.PORT_3)) {
+    fill(0, 0, 255);
+    rect(width, 50, -100, 50);  
+  }  
 }
 
+void stop() {
+  println("Stop");
+}

@@ -1,9 +1,8 @@
-import processing.serial.*;
-
 /*
  * NXTCommTest.pde
  *
  * Created on 07 de March 2007
+ * Modified on 14 August 2014 
  *
  *  NXTComm: A java library to control the NXT Brick.
  *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
@@ -28,37 +27,24 @@ import processing.serial.*;
  *  email: jorgecardoso <> ieee org
  *  web: http://jorgecardoso.org
  */
- 
+import processing.serial.*;
 import pt.citar.diablu.processing.nxt.*;
 
-PFont font;
 
+int power = 50;
 LegoNXT lego;
 
 
 void setup() {
   size(400, 400);
 
-
-  font = loadFont("ArialNarrow-24.vlw");
-  textFont(font);
-
   lego = new LegoNXT(this, "/dev/tty.NXT-DevB");
-  frameRate(20);
+  frameRate(10);
 }
 
 
 void draw() {
 
-  background(0);
-  int pA = (mouseX-width/2)/4 + 20;
-  int pB = (-mouseX+width/2)/4 + 20;
-  println("Power A: " + pA + " Power B: " + pB);
-  
-  if (mousePressed) {
-    lego.motorForward(LegoNXT.MOTOR_A, pA);
-    lego.motorForward(LegoNXT.MOTOR_B, pB);
-  }
 }
 
 
@@ -66,30 +52,35 @@ void keyPressed() {
   println(key);
 
   if (key == '1') {
-    lego.motorForwardLimit(LegoNXT.MOTOR_A, 60, 180);
-    //lego.motorForwardLimit(LegoNXT.MOTOR_B, 60, 180);
+    lego.motorForwardLimit(LegoNXT.MOTOR_A, power, 360);
+  }   
+  else if (key == '2') {
+    lego.motorForward(LegoNXT.MOTOR_A, power);
   } 
-  else if(key =='2') {
-    lego.motorForwardLimit(LegoNXT.MOTOR_A, 60, 90);
+  else if (key == '+') {
+    power += 5;
+    println(power);
   } 
-  else if (key == '3') {
-    lego.motorForwardLimit(LegoNXT.MOTOR_A, 30, 90);
-  } 
-  else if (key =='q') {
-    lego.motorStop(LegoNXT.MOTOR_A);
-  } 
-  else if(key == 'w') {
-    lego.motorHandBrake(LegoNXT.MOTOR_B);
-  } 
-  else if (key == 'e') {
-    lego.motorStop(LegoNXT.MOTOR_C);
+  else if (key == '-') {
+    power -= 5;
+    println(power);
   }
+  else if (key =='q') {
+    lego.motorHandBrake(LegoNXT.MOTOR_A);
+  } 
+  else if (key == 's') {
+    System.out.println("TL: " + lego.getMotorTachoLimit(LegoNXT.MOTOR_A) + 
+      " TC: " +lego.getMotorTachoCount(LegoNXT.MOTOR_A) +
+      " BTC: " + lego.getMotorBlockTachoCount(LegoNXT.MOTOR_A) + 
+      " RC: " + lego.getMotorRotationCount(LegoNXT.MOTOR_A) );
+  } else if (key == 'r') {
+    lego.resetMotorPosition(LegoNXT.MOTOR_A, false);
+  }
+
 }
 
 
 void stop() {
   println("Stop");
   lego.motorStop(LegoNXT.MOTOR_A);
-  lego.motorStop(LegoNXT.MOTOR_B);
-  lego.motorStop(LegoNXT.MOTOR_C);
 }

@@ -2,6 +2,7 @@
  * NXTCommMotorFixedDistance.pde
  *
  * Created on 03 de December 2007
+ * Modified on 14 August 2014 
  *
  *  NXTComm: A java library to control the NXT Brick.
  *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
@@ -26,7 +27,7 @@
  *  email: jorgecardoso <> ieee org
  *  web: http://jorgecardoso.org
  */
-
+import processing.serial.*;
 import pt.citar.diablu.processing.nxt.*;
 
 PFont font;
@@ -41,11 +42,11 @@ LegoNXT lego;
 void setup() {
   size(400, 400);
 
-  font = loadFont("ArialNarrow-24.vlw");
-  textFont(font);
+  lego = new LegoNXT(this, "/dev/tty.NXT-DevB");
+  frameRate(20);
 
-  lego = new LegoNXT(this, "COM18");
-  frameRate(10);
+  rotationLimit = 45;
+  lego.resetMotorPosition(LegoNXT.MOTOR_A, false);
 }
 
 
@@ -57,20 +58,16 @@ void draw() {
   long dif = rotationLimit - rotationCount;
 
   // a long way: power to half throttle (we can increase power if we're still further than this)
-  if(abs(dif) > 180) {
+  if (abs(dif) > 180) {
     power = 50;
-  } 
-  else if (abs(dif) <= 5) { // close enough, stop
+  } else if (abs(dif) <= 5) { // close enough, stop
     power = 0;
-  } 
-  else { // use a quadratic function: power will increase as a function of distance from 2 (or -2) to 50 (or -50).
+  } else { // use a quadratic function: power will increase as a function of distance from 2 (or -2) to 50 (or -50).
     if (dif > 0) {
-      power = (int)((dif*dif)/650)+2;
-    } 
-    else {
-      power = -(int)((dif*dif)/650)-2;
+      power = (int)((dif*dif)/650)+1;
+    } else {
+      power = -(int)((dif*dif)/650)-1;
     }
-
   }
   lego.motorForward(LegoNXT.MOTOR_A, power);
 
@@ -80,36 +77,29 @@ void draw() {
 
 // configured several 'distances'
 void keyPressed() {
-  
+
   if (key == '1') {
     rotationLimit = 45;
     lego.resetMotorPosition(LegoNXT.MOTOR_A, false);
-  }   
-  else if (key == '2') {
+  } else if (key == '2') {
     rotationLimit = 90;
     lego.resetMotorPosition(LegoNXT.MOTOR_A, false);
-  } 
-  else if (key == '3') {
+  } else if (key == '3') {
     rotationLimit = 180;
     lego.resetMotorPosition(LegoNXT.MOTOR_A, false);
-  } 
-  else if (key == '4') {
+  } else if (key == '4') {
     rotationLimit = 360;
     lego.resetMotorPosition(LegoNXT.MOTOR_A, false);
-  }
-  else if (key =='q') {
+  } else if (key =='q') {
     lego.motorHandBrake(LegoNXT.MOTOR_A);
-  } 
-  else if (key == 's') {
+  } else if (key == 's') {
     System.out.println("TL: " + lego.getMotorTachoLimit(LegoNXT.MOTOR_A) + 
       " TC: " +lego.getMotorTachoCount(LegoNXT.MOTOR_A) +
       " BTC: " + lego.getMotorBlockTachoCount(LegoNXT.MOTOR_A) + 
       " RC: " + lego.getMotorRotationCount(LegoNXT.MOTOR_A) );
-  } 
-  else if (key == 'r') {
+  } else if (key == 'r') {
     lego.resetMotorPosition(LegoNXT.MOTOR_A, false);
   }
-
 }
 
 
@@ -117,3 +107,4 @@ void stop() {
   println("Stop");
   lego.motorStop(LegoNXT.MOTOR_A);
 }
+
